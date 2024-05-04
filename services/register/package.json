@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.ts",
     "scripts": {
-        "start": "tsx server.ts"
+        "dev": "tsx start.ts"
     },
     "author": "",
     "license": "MIT",
