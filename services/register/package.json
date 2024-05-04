@@ -1,0 +1,20 @@
+{
+    "name": "@quarter/register",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.ts",
+    "scripts": {
+        "start": "tsx server.ts"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.19.2",
+        "tsx": "^4.9.0"
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@types/express": "^4.17.21"
+    }
+}
