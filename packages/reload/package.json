@@ -1,0 +1,21 @@
+{
+    "name": "@quarter/reload",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "bin": {
+        "reload": "./dist/index.js"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "tsx": "^4.9.0"
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+    }
+}

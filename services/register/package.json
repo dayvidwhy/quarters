@@ -4,7 +4,7 @@
     "description": "",
     "main": "server.ts",
     "scripts": {
-        "dev": "tsx start.ts"
+        "dev": "reload 'tsx ./server.ts' .ts"
     },
     "author": "",
     "license": "MIT",
@@ -16,6 +16,7 @@
     "type": "module",
     "private": true,
     "devDependencies": {
+        "@quarter/reload": "file:../../packages/reload",
         "@types/express": "^4.17.21"
     }
 }

@@ -4,13 +4,16 @@
     "description": "",
     "main": "server.ts",
     "scripts": {
-        "dev": "tsx start.ts"
+        "dev": "reload 'tsx ./index.ts' .ts"
     },
     "author": "",
     "license": "MIT",
     "dependencies": {
         "kafkajs": "^2.2.4",
         "tsx": "^4.9.0"
+    },
+    "devDependencies": {
+        "@quarter/reload": "file:../../packages/reload"
     },
     "type": "module",
     "private": true

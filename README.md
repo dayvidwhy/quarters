@@ -20,3 +20,4 @@ Example of installing a package in this repo into another.
 ```bash
 npm install @quarters/[package] -w ./services/[service-name]
 ```
+npm install ./packages/reload -w ./services/register

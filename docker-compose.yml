@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   register-app:
-    build: ./services/register
+    build: ./
     restart: always
     container_name: register-service
     ports:
@@ -12,9 +12,10 @@ services:
       - /app/node_modules
     depends_on:
       - kafka
+    command: npm run dev --workspace=services/register
 
   inventory-app:
-    build: ./services/inventory
+    build: ./
     restart: always
     container_name: inventory-service
     ports:
@@ -24,6 +25,7 @@ services:
       - /app/node_modules
     depends_on:
       - kafka
+    command: npm run dev --workspace=services/inventory
 
   kafka:
     image: bitnami/kafka:latest

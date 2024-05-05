@@ -13,3 +13,4 @@ dist
 dist-ssr
 
 .DS_Store
+**/bin
