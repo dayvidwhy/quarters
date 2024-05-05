@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.ts",
     "scripts": {
-        "build": "tsc"
+        "prepare": "tsc"
     },
     "bin": {
         "reload": "./dist/index.js"
@@ -17,5 +17,6 @@
     "type": "module",
     "private": true,
     "devDependencies": {
+        "typescript": "^5.4.5"
     }
 }

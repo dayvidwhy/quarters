@@ -10,6 +10,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/packages/reload/dist
     depends_on:
       - kafka
     command: npm run dev --workspace=services/register
@@ -23,6 +24,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/packages/reload/dist
     depends_on:
       - kafka
     command: npm run dev --workspace=services/inventory
