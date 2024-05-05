@@ -19,5 +19,7 @@ npm install axios -w ./services/[service-name]
 Example of installing a package in this repo into another.
 ```bash
 npm install @quarters/[package] -w ./services/[service-name]
-```
+
+# e.g.
 npm install ./packages/reload -w ./services/register
+```
