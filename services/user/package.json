@@ -9,15 +9,20 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "@quarter/store": "file:../../packages/store",
+        "bcrypt": "^5.1.1",
         "express": "^4.19.2",
         "kafkajs": "^2.2.4",
-        "tsx": "^4.9.0"
+        "tsx": "^4.9.0",
+        "drizzle-orm": "^0.30.10",
+        "pg": "^8.11.5"
     },
     "type": "module",
     "private": true,
     "devDependencies": {
+        "@types/pg": "^8.11.6",
+        "drizzle-kit": "^0.20.17",
         "@quarter/reload": "file:../../packages/reload",
+        "@types/bcrypt": "^5.0.2",
         "@types/express": "^4.17.21"
     }
 }

@@ -1,6 +1,12 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",                                   /* Specify an output folder for all emitted files. */
+    "lib": ["ESNext"],
+    "target": "es2020",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "strictNullChecks": true,
   }
 }

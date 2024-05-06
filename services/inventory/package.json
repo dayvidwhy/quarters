@@ -9,7 +9,6 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "@quarter/store": "file:../../packages/store",
         "kafkajs": "^2.2.4",
         "tsx": "^4.9.0"
     },
