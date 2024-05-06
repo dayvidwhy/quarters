@@ -30,3 +30,11 @@ npm install @quarters/[package] -w ./services/[service-name]
 # e.g.
 npm install ./packages/reload -w ./services/register
 ```
+
+## Storage
+Uses PostgresSQL with DrizzleORM.
+
+Inspect the database with Drizzle kit studio
+```bash
+npx drizzle-kit studio
+```

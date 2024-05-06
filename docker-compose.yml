@@ -7,26 +7,61 @@ services:
     container_name: register-service
     ports:
       - "3000:3000"
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_PORT: ${POSTGRES_PORT}
     volumes:
       - .:/app
       - /app/node_modules
       - /app/packages/reload/dist
     depends_on:
       - kafka
+      - db
     command: npm run dev --workspace=services/register
+
+  user-app:
+    build: ./
+    restart: always
+    container_name: user-service
+    ports:
+      - "3002:3000"
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_PORT: ${POSTGRES_PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/packages/reload/dist
+    depends_on:
+      - kafka
+      - db
+    command: npm run dev --workspace=services/user
 
   inventory-app:
     build: ./
     restart: always
     container_name: inventory-service
+    environment:
+      DB_HOST: ${POSTGRES_HOST}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_PORT: ${POSTGRES_PORT}
     ports:
-      - "3001:3001"
+      - "3001:3000"
     volumes:
       - .:/app
       - /app/node_modules
       - /app/packages/reload/dist
     depends_on:
       - kafka
+      - db
     command: npm run dev --workspace=services/inventory
 
   kafka:
@@ -44,5 +79,18 @@ services:
     volumes:
       - kafka_data:/bitnami/kafka
 
+  db:
+    image: postgres:latest
+    container_name: quarters-db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
 volumes:
   kafka_data:
+  pgdata:
