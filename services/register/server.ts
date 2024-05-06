@@ -1,4 +1,5 @@
 import express from "express";
+import { expressjwt } from "express-jwt";
 import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
@@ -11,7 +12,22 @@ const KAFKA_TOPIC = "inventory-topic";
 const producer = kafka.producer();
 
 const app = express();
+app.use(express.json());
 const port = process.env.PORT || 3000;
+
+const jwtSecret = process.env.JWT_SECRET;
+
+if (!jwtSecret) {
+    console.error("JWT_SECRET is required");
+    process.exit(1);
+}
+
+app.use(
+    expressjwt({
+        secret: jwtSecret,
+        algorithms: ["HS256"],
+    })
+);
 
 // Producing
 await producer.connect();

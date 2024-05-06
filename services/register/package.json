@@ -10,6 +10,7 @@
     "license": "MIT",
     "dependencies": {
         "express": "^4.19.2",
+        "express-jwt": "^8.4.1",
         "kafkajs": "^2.2.4",
         "tsx": "^4.9.0"
     },

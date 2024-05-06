@@ -1,10 +1,36 @@
 import express from "express";
+import { expressjwt } from "express-jwt";
+import jwt from "jsonwebtoken";
 import { createUser, findUserByEmail, openDb } from "./store";
 import { hash, compare } from "./hash";
   
 const app = express();
 app.use(express.json());
 const port = process.env.PORT || 3000;
+
+const jwtSecret = process.env.JWT_SECRET;
+
+if (!jwtSecret) {
+    console.error("JWT_SECRET is required");
+    process.exit(1);
+}
+
+app.use(
+    expressjwt({
+        secret: jwtSecret,
+        algorithms: ["HS256"],
+    }).unless({
+        path: ["/register", "/login"],
+    })
+);
+
+const generateAccessToken = (username) => {
+    return jwt.sign({
+        data: { username }
+    }, jwtSecret, {
+        expiresIn: "1h"
+    });
+};
 
 app.post("/register", async (req, res) => {
     const { email, password } = req.body;
@@ -37,9 +63,9 @@ app.post("/login", async (req, res) => {
     }
     const validPassword = await compare(password, user.password);
     if (validPassword) {
-        // Create a JWT token and send it back to the user.
-        
-        return res.status(200).send("Login successful");
+        return res.status(200).send({
+            token: generateAccessToken(email)
+        });
     } else {
         return res.status(401).send("Invalid password");
     }
