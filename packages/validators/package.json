@@ -1,0 +1,16 @@
+{
+    "name": "@quarters/validators",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "zod": "^3.23.6"
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
+}

@@ -1,6 +1,6 @@
 import express from "express";
-import { expressjwt } from "express-jwt";
-import jwt from "jsonwebtoken";
+import { userRegisterSchema } from "@quarters/validators";
+import { createJwtMiddleware, generateAccessToken } from "@quarters/auth";
 import { createUser, findUserByEmail, openDb } from "./store";
 import { hash, compare } from "./hash";
   
@@ -16,26 +16,24 @@ if (!jwtSecret) {
 }
 
 app.use(
-    expressjwt({
-        secret: jwtSecret,
-        algorithms: ["HS256"],
-    }).unless({
-        path: ["/register", "/login"],
+    createJwtMiddleware({
+        jwtSecret,
+        except: ["/register", "/login"],
     })
 );
 
-const generateAccessToken = (username) => {
-    return jwt.sign({
-        data: { username }
-    }, jwtSecret, {
-        expiresIn: "1h"
-    });
-};
-
 app.post("/register", async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(400).send("Email and password are required");
+    let email: string;
+    let password: string;
+    try {
+        const parsedSchema = userRegisterSchema.safeParse(req.body);
+        if (!parsedSchema.success) {
+            throw new Error("Invalid input");
+        }
+        email = parsedSchema.data.email;
+        password = parsedSchema.data.password;
+    } catch (error) {
+        return res.status(400).send("Invalid input");
     }
 
     const hashedPassword = await hash(password);
@@ -52,9 +50,17 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(400).send("Email and password are required");
+    let email: string;
+    let password: string;
+    try {
+        const parsedSchema = userRegisterSchema.safeParse(req.body);
+        if (!parsedSchema.success) {
+            throw new Error("Invalid input");
+        }
+        email = parsedSchema.data.email;
+        password = parsedSchema.data.password;
+    } catch (error) {
+        return res.status(400).send("Invalid input");
     }
 
     const [user] = await findUserByEmail(email);
@@ -64,7 +70,13 @@ app.post("/login", async (req, res) => {
     const validPassword = await compare(password, user.password);
     if (validPassword) {
         return res.status(200).send({
-            token: generateAccessToken(email)
+            token: generateAccessToken({
+                payload: {
+                    email: user.email
+                },
+                jwtSecret,
+                expiresIn: "1h"
+            })
         });
     } else {
         return res.status(401).send("Invalid password");

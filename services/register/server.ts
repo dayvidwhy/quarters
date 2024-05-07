@@ -1,5 +1,5 @@
 import express from "express";
-import { expressjwt } from "express-jwt";
+import { createJwtMiddleware } from "@quarters/auth";
 import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
@@ -23,9 +23,8 @@ if (!jwtSecret) {
 }
 
 app.use(
-    expressjwt({
-        secret: jwtSecret,
-        algorithms: ["HS256"],
+    createJwtMiddleware({
+        jwtSecret
     })
 );
 
