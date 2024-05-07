@@ -1,5 +1,5 @@
 {
-    "name": "@quarter/inventory",
+    "name": "@quarters/inventory",
     "version": "1.0.0",
     "description": "",
     "main": "server.ts",
@@ -13,7 +13,7 @@
         "tsx": "^4.9.0"
     },
     "devDependencies": {
-        "@quarter/reload": "file:../../packages/reload"
+        "@quarters/reload": "^1.0.0"
     },
     "type": "module",
     "private": true
