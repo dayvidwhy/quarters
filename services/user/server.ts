@@ -1,7 +1,7 @@
 import express from "express";
 import { userRegisterSchema } from "@quarters/validators";
 import { createJwtMiddleware, generateAccessToken } from "@quarters/auth";
-import { createUser, findUserByEmail, openDb } from "./store";
+import { createUser, findUserByEmail, openDb } from "@quarters/store";
 import { hash, compare } from "./hash";
   
 const app = express();
@@ -50,6 +50,7 @@ app.post("/register", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+    // Grab the email and password from the request body
     let email: string;
     let password: string;
     try {
@@ -63,24 +64,28 @@ app.post("/login", async (req, res) => {
         return res.status(400).send("Invalid input");
     }
 
+    // Find the user by email
     const [user] = await findUserByEmail(email);
     if (!user?.password) {
         return res.status(404).send("User not found");
     }
+
+    // Compare the password
     const validPassword = await compare(password, user.password);
-    if (validPassword) {
-        return res.status(200).send({
-            token: generateAccessToken({
-                payload: {
-                    email: user.email
-                },
-                jwtSecret,
-                expiresIn: "1h"
-            })
-        });
-    } else {
+    if (!validPassword) {
         return res.status(401).send("Invalid password");
     }
+
+    // Return the token
+    return res.status(200).send({
+        token: generateAccessToken({
+            payload: {
+                id: user.userId
+            },
+            jwtSecret,
+            expiresIn: "1h"
+        })
+    });
 });
 
 (async () => {

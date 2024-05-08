@@ -1,5 +1,7 @@
 import express from "express";
+import type { Request } from "express";
 import { createJwtMiddleware } from "@quarters/auth";
+import { deviceRegisterSchema, jwtPayloadSchema } from "@quarters/validators";
 import { Kafka } from "kafkajs";
 
 const kafka = new Kafka({
@@ -28,16 +30,61 @@ app.use(
     })
 );
 
-// Producing
+interface AuthRequest extends Request {
+    auth: {
+        data: {
+            id: string;
+            email: string;
+        }
+    }
+}
+
+// Connect to Kafka producer
 await producer.connect();
-app.get("/register", async (req, res) => {
+
+app.post("/register", async (req: AuthRequest, res) => {
+    if (!req.auth) {
+        return res.status(401).send("Unauthorized");
+    }
+
+    let userId: number;
+    try {
+        console.log(req.auth);
+        const parsedSchema = jwtPayloadSchema.safeParse(req.auth);
+        if (!parsedSchema.success) {
+            throw new Error("Invalid input");
+        }
+        userId = parsedSchema.data.data.id;
+    } catch (error) {
+        return res.status(400).send("Invalid auth token");
+    }
+
+    let deviceName: string;
+    try {
+        const parsedSchema = deviceRegisterSchema.safeParse(req.body);
+        if (!parsedSchema.success) {
+            throw new Error("Invalid input");
+        }
+        deviceName = parsedSchema.data.deviceName;
+    } catch (error) {
+        return res.status(400).send("Invalid input");
+    }
+
     await producer.send({
         topic: KAFKA_TOPIC,
         messages: [
-            { value: "Test item!" },
+            {
+                value: JSON.stringify({
+                    userId,
+                    deviceName
+                }),
+            },
         ],
     });
-    res.send("Test");
+
+    res.send({
+        message: "Device registered successfully"
+    });
 });
 
 app.listen(port, () => {

@@ -9,13 +9,12 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "@quarters/validators": "^1.0.0",
         "@quarters/auth": "^1.0.0",
+        "@quarters/store": "^1.0.0",
+        "@quarters/validators": "^1.0.0",
         "bcrypt": "^5.1.1",
-        "drizzle-orm": "^0.30.10",
         "express": "^4.19.2",
         "kafkajs": "^2.2.4",
-        "pg": "^8.11.5",
         "tsx": "^4.9.0"
     },
     "type": "module",
@@ -23,8 +22,6 @@
     "devDependencies": {
         "@quarters/reload": "^1.0.0",
         "@types/bcrypt": "^5.0.2",
-        "@types/express": "^4.17.21",
-        "@types/pg": "^8.11.6",
-        "drizzle-kit": "^0.20.17"
+        "@types/express": "^4.17.21"
     }
 }

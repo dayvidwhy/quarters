@@ -1,0 +1,23 @@
+{
+    "name": "@quarters/store",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "author": "",
+    "license": "MIT",
+    "scripts": {
+        "generate": "npx drizzle-kit generate:pg",
+        "migrate": "npx drizzle-kit push:pg"
+    },
+    "dependencies": {
+        "drizzle-orm": "^0.30.10",
+        "pg": "^8.11.5"
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@types/pg": "^8.11.6",
+        "drizzle-kit": "^0.20.17",
+        "typescript": "^5.4.5"
+    }
+}

@@ -1,10 +1,13 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
-import { users } from "./schema/users";
-
 import pg from "pg";
 
-// or
+export { users } from "./schema/users";
+export { items } from "./schema/inventory";
+
+import { users } from "./schema/users";
+import { items } from "./schema/inventory";
+
 const client = new pg.Client({
     host: process.env.DB_HOST,
     port: +(process.env.DB_PORT || 5432),
@@ -18,6 +21,17 @@ let database;
 export const openDb = async () => {
     await client.connect();
     database = drizzle(client);
+};
+
+export const findItemById = async (id: number) => {
+    return await database.select().from(items).where(eq(items.itemId, id));
+};
+
+export const createItem = async (deviceName: string, userId: number) => {
+    return await database.insert(items).values({
+        deviceName,
+        userId
+    });
 };
 
 export const findUserByEmail = async (email: string) => {
