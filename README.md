@@ -7,6 +7,13 @@ Home management system using Node.js microservices in a single monorepo. Authent
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/dayvidwhy/quarters)
 ![GitHub](https://img.shields.io/github/license/dayvidwhy/quarters)
 
+## Table of Contents
+- [Installation](#installation)
+- [Development](#development)
+- [Microservice monorepo](#microservice-monorepo)
+- [Database](#database)
+
+
 ## Installation
 Get started by cloning the repository and starting the containers.
 ```bash
