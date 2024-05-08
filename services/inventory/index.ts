@@ -1,8 +1,14 @@
 import { createItem, openDb } from "@quarters/store";
 import { registerDeviceMessageSchema } from "@quarters/validators";
-import { inventoryTopic } from "packages/streams";
+import { inventoryTopic } from "@quarters/streams";
 
-const inventoryStream = inventoryTopic("quarters/inventory-service");
+let inventoryStream;
+try {
+    inventoryStream = inventoryTopic("quarters/inventory-service");
+} catch (error) {
+    console.error(error);
+    process.exit(1);
+}
 
 await openDb();
 

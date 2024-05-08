@@ -6,19 +6,8 @@ import bcrypt from "bcrypt";
  * @returns {String} Hashed password.
  */
 export const hash = async (password: string): Promise<string> => {
-    let salt;
-    try {
-        salt = await bcrypt.genSalt(10);
-    } catch (error) {
-        throw new Error("Internal server error.");
-    }
-    let hash;
-    try {
-        hash = await bcrypt.hash(password, salt);
-    } catch (error) {
-        throw new Error("Internal server error.");
-    }
-
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
     return hash;
 };
 

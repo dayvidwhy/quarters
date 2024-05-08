@@ -8,19 +8,36 @@ export { items } from "./schema/inventory";
 import { users } from "./schema/users";
 import { items } from "./schema/inventory";
 
+// Validate the environment variables
+if (
+    !process.env.DB_HOST ||
+    !process.env.DB_PORT ||
+    !process.env.DB_USER ||
+    !process.env.DB_PASSWORD ||
+    !process.env.DB_NAME
+) {
+    throw new Error("Missing required DB environment variables, please check your .env file, and review the README.md for instructions.");
+}
+
+// Create a new client
 const client = new pg.Client({
     host: process.env.DB_HOST,
-    port: +(process.env.DB_PORT || 5432),
+    port: +(process.env.DB_PORT),
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
 });
 
+// Connect to the database
 let database;
-
 export const openDb = async () => {
-    await client.connect();
-    database = drizzle(client);
+    try {
+        await client.connect();
+        database = drizzle(client);
+    } catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
 };
 
 export const findItemById = async (id: number) => {

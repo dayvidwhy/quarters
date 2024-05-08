@@ -1,6 +1,6 @@
 import { Kafka } from "kafkajs";
 
-export const inventoryTopic = (clientId) => {
+export const inventoryTopic = (clientId: string) => {
     const INVENTORY_GROUP_ID = "inventory-group";
     const INVENTORY_TOPIC = "inventory-topic";
 
@@ -15,6 +15,7 @@ export const inventoryTopic = (clientId) => {
         producer = kafka.producer();
         consumer = kafka.consumer({ groupId: INVENTORY_GROUP_ID });
     } catch (error) {
+        console.error(error);
         throw new Error("Error initializing Kafka");
     }
 
@@ -25,7 +26,6 @@ export const inventoryTopic = (clientId) => {
         },
         async sendMessage(payload) {
             try {
-                console.log(payload);
                 await producer.send({
                     topic: INVENTORY_TOPIC,
                     messages: [
@@ -54,7 +54,8 @@ export const inventoryTopic = (clientId) => {
                     },
                 });
             } catch (error) {
-                throw new Error("Error consuming messages");
+                console.error("Error consuming messages", error);
+                return;
             }
         }
     };
