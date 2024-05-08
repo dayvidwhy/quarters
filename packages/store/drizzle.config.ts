@@ -12,6 +12,5 @@ export default {
         database: process.env.DB_NAME || "postgres",
         ssl: false,
     },
-    verbose: true,
-    strict: true,
+    verbose: true
 } satisfies Config;

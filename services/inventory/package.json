@@ -10,8 +10,8 @@
     "license": "MIT",
     "dependencies": {
         "@quarters/store": "^1.0.0",
+        "@quarters/streams": "^1.0.0",
         "@quarters/validators": "^1.0.0",
-        "kafkajs": "^2.2.4",
         "tsx": "^4.9.0"
     },
     "devDependencies": {

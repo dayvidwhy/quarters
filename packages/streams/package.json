@@ -1,0 +1,16 @@
+{
+    "name": "@quarters/streams",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "kafkajs": "^2.2.4"
+    },
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
+}

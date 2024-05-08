@@ -2,16 +2,12 @@ import express from "express";
 import type { Request } from "express";
 import { createJwtMiddleware } from "@quarters/auth";
 import { deviceRegisterSchema, jwtPayloadSchema } from "@quarters/validators";
-import { Kafka } from "kafkajs";
+import { inventoryTopic } from "packages/streams";
 
-const kafka = new Kafka({
-    clientId: "quarters/register-service",
-    brokers: ["kafka:9092"]
-});
+const inventoryStream = inventoryTopic("quarters/register-service");
 
-const KAFKA_TOPIC = "inventory-topic";
-  
-const producer = kafka.producer();
+// connect ahead of producing messages
+await inventoryStream.connect();
 
 const app = express();
 app.use(express.json());
@@ -38,9 +34,6 @@ interface AuthRequest extends Request {
         }
     }
 }
-
-// Connect to Kafka producer
-await producer.connect();
 
 app.post("/register", async (req: AuthRequest, res) => {
     if (!req.auth) {
@@ -70,16 +63,9 @@ app.post("/register", async (req: AuthRequest, res) => {
         return res.status(400).send("Invalid input");
     }
 
-    await producer.send({
-        topic: KAFKA_TOPIC,
-        messages: [
-            {
-                value: JSON.stringify({
-                    userId,
-                    deviceName
-                }),
-            },
-        ],
+    await inventoryStream.sendMessage({
+        userId,
+        deviceName
     });
 
     res.send({

@@ -22,6 +22,8 @@ app.use(
     })
 );
 
+await openDb();
+
 app.post("/register", async (req, res) => {
     let email: string;
     let password: string;
@@ -88,9 +90,6 @@ app.post("/login", async (req, res) => {
     });
 });
 
-(async () => {
-    await openDb();
-    app.listen(port, () => {
-        console.log(`Server is running on port ${port}`);
-    });
-})();
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});

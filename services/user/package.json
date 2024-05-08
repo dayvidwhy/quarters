@@ -14,7 +14,6 @@
         "@quarters/validators": "^1.0.0",
         "bcrypt": "^5.1.1",
         "express": "^4.19.2",
-        "kafkajs": "^2.2.4",
         "tsx": "^4.9.0"
     },
     "type": "module",

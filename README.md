@@ -56,12 +56,15 @@ npm install axios -w ./services/[service-name]
 npm install axios -w ./services/user
 ```
 
-Example of installing a package in this repo, into another local package, e.g. a service.
-
-```bash
-npm install ./packages/[package] -w ./services/[service-name]
-# e.g.
-npm install ./packages/reload -w ./services/register
+To install a local package into another local package, simply update the relevant `package.json` and add in the `@quarters/[package]` line, eg;
+```json
+{
+    ...
+    "dependencies": {
+        "@quarters/auth": "^1.0.0",
+    }
+    ...
+}
 ```
 
 ## Database
@@ -92,8 +95,8 @@ docker-compose up --build # ensure project is running
 docker exec -it user-service bash
 
 # Navigate to user service
-cd services/user
-npx drizzle-kit push:pg
+cd packages/store
+npm run migrate
 
 # Accept the prompt to push the migration
 ```
