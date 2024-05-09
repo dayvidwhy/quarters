@@ -1,4 +1,5 @@
 import express from "express";
+import type { ErrorRequestHandler } from "express";
 import { userRegisterSchema } from "@quarters/validators";
 import { createJwtMiddleware, generateAccessToken } from "@quarters/auth";
 import { createUser, findUserByEmail, openDb } from "@quarters/store";
@@ -21,7 +22,8 @@ app.use(
         except: ["/register", "/login"],
     })
 );
-app.use(function (err, req, res, next) {
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err.name === "UnauthorizedError") {
         res.status(401).send({
             message: "Unauthorized"
@@ -29,7 +31,9 @@ app.use(function (err, req, res, next) {
     } else {
         next(err);
     }
-});
+};
+
+app.use(errorHandler);
 
 // Open the database connection
 await openDb();
