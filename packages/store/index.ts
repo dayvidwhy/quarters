@@ -1,4 +1,4 @@
-import { drizzle } from "drizzle-orm/node-postgres";
+import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { eq } from "drizzle-orm";
 import pg from "pg";
 
@@ -29,7 +29,7 @@ const client = new pg.Client({
 });
 
 // Connect to the database
-let database;
+let database: NodePgDatabase<Record<string, never>>;
 export const openDb = async () => {
     try {
         await client.connect();

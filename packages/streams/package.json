@@ -6,6 +6,7 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
+        "@quarters/validators": "^1.0.0",
         "kafkajs": "^2.2.4"
     },
     "type": "module",

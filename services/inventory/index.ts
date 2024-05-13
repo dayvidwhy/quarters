@@ -1,5 +1,5 @@
 import { createItem, openDb } from "@quarters/store";
-import { registerDeviceMessageSchema } from "@quarters/validators";
+import { registerDeviceMessageSchema, type RegisterDeviceMessageSchema } from "@quarters/validators";
 import { inventoryTopic } from "@quarters/streams";
 
 let inventoryStream;
@@ -13,7 +13,7 @@ try {
 await openDb();
 
 try {
-    await inventoryStream.startConsuming(async (message) => {
+    await inventoryStream.startConsuming(async (message: RegisterDeviceMessageSchema) => {
         let userId;
         let deviceName;
         try {

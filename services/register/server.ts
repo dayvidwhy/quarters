@@ -1,5 +1,4 @@
-import express from "express";
-import type { Request } from "express";
+import express, { type Request, type ErrorRequestHandler} from "express";
 import { createJwtMiddleware } from "@quarters/auth";
 import { deviceRegisterSchema, jwtPayloadSchema } from "@quarters/validators";
 import { inventoryTopic } from "@quarters/streams";
@@ -30,7 +29,8 @@ app.use(
         jwtSecret
     })
 );
-app.use(function (err, req, res, next) {
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err.name === "UnauthorizedError") {
         res.status(401).send({
             message: "Unauthorized"
@@ -38,7 +38,9 @@ app.use(function (err, req, res, next) {
     } else {
         next(err);
     }
-});
+};
+
+app.use(errorHandler);
 
 // Define the AuthRequest interface
 interface AuthRequest extends Request {
