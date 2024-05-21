@@ -93,7 +93,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: insights-pgadmin
+    container_name: quarters-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
